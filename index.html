@@ -6,24 +6,46 @@
     <title>Productivity Planner Pro</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <!-- Dexie.js for advanced local database management -->
     <script src="https://unpkg.com"></script>
+    <!-- Include the official Supabase JavaScript SDK for Authentication -->
+    <script src="https://jsdelivr.net"></script>
 </head>
 <body>
-    <div class="app-layout">
-        <!-- Sidebar Navigation -->
+
+    <!-- AUTHENTICATION SCREEN -->
+    <div id="auth-screen" class="auth-container">
+        <div class="auth-box">
+            <h2>Welcome to Planner Pro</h2>
+            <p>Sign in to sync your data across devices offline.</p>
+            <input type="email" id="auth-email" placeholder="Email Address">
+            <input type="password" id="auth-password" placeholder="Password">
+            <div class="auth-buttons">
+                <button onclick="handleLogin()">Login</button>
+                <button onclick="handleSignUp()" class="secondary-btn">Sign Up</button>
+            </div>
+            <p id="auth-error" class="error-text"></p>
+        </div>
+    </div>
+
+    <!-- MAIN APP LAYOUT (Hidden until logged in) -->
+    <div id="app-layout" class="app-layout" style="display: none;">
         <aside class="sidebar">
-            <h2>Planner Pro</h2>
-            <nav>
-                <button onclick="switchTab('tasks')">📋 Tasks</button>
-                <button onclick="switchTab('calendar')">📅 Calendar</button>
-                <button onclick="switchTab('pomodoro')">⏱️ Pomodoro</button>
-                <button onclick="switchTab('notes')">📝 Notes</button>
-            </nav>
-            <div id="sync-status" class="sync-status">Offline Mode</div>
+            <div>
+                <h2>Planner Pro</h2>
+                <div id="user-display" class="user-display">Loading profile...</div>
+                <nav>
+                    <button onclick="switchTab('tasks')">📋 Tasks</button>
+                    <button onclick="switchTab('calendar')">📅 Calendar</button>
+                    <button onclick="switchTab('pomodoro')">⏱️ Pomodoro</button>
+                    <button onclick="switchTab('notes')">📝 Notes</button>
+                </nav>
+            </div>
+            <div>
+                <div id="sync-status" class="sync-status">Offline Mode</div>
+                <button onclick="handleLogout()" class="logout-btn">Log Out</button>
+            </div>
         </aside>
 
-        <!-- Main Content Area -->
         <main class="main-content">
             <!-- TASKS TAB -->
             <section id="tab-tasks" class="tab-content active">
@@ -55,7 +77,21 @@
             <!-- POMODORO TAB -->
             <section id="tab-pomodoro" class="tab-content">
                 <h3>Pomodoro Timer</h3>
+                
+                <!-- Customized Settings Form -->
+                <div class="timer-settings">
+                    <label>Work: <input type="number" id="cfg-work" value="25" min="1">m</label>
+                    <label>Short Break: <input type="number" id="cfg-short" value="5" min="1">m</label>
+                    <label>Long Break: <input type="number" id="cfg-long" value="15" min="1">m</label>
+                    <button onclick="applyTimerSettings()">Apply Settings</button>
+                </div>
+
                 <div class="timer-box">
+                    <div class="timer-modes">
+                        <button onclick="setTimerMode('work')" id="mode-work" class="active-mode">Work</button>
+                        <button onclick="setTimerMode('short')" id="mode-short">Short Break</button>
+                        <button onclick="setTimerMode('long')" id="mode-long">Long Break</button>
+                    </div>
                     <div id="timer-display">25:00</div>
                     <div class="timer-controls">
                         <button id="timer-start" onclick="toggleTimer()">Start</button>
