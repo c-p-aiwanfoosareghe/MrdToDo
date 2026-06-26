@@ -161,3 +161,97 @@ button:hover { filter: brightness(0.9); }
     position: relative;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
+/* Auth Screen Overlay Styling */
+.auth-container {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: #1a202c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.auth-box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.auth-box input {
+    width: 90%;
+    margin-bottom: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.secondary-btn {
+    background: #4a5568;
+}
+
+.user-display {
+    font-size: 11px;
+    color: #a0aec0;
+    margin-bottom: 20px;
+    word-break: break-all;
+}
+
+.error-text {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.logout-btn {
+    background: #4a5568;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Pomodoro Customizations */
+.timer-settings {
+    display: flex;
+    gap: 15px;
+    background: var(--surface);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-settings input {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+}
+
+.timer-modes {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.timer-modes button {
+    background: #e2e8f0;
+    color: #4a5568;
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.timer-modes button.active-mode {
+    background: var(--primary);
+    color: white;
+}
