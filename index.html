@@ -3,32 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offline To-Do List</title>
+    <title>Productivity Planner Pro</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Link to the PWA Manifest -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#28a745">
+    <!-- Dexie.js for advanced local database management -->
+    <script src="https://unpkg.com"></script>
 </head>
 <body>
-    <div class="todo-container">
-        <h2>Offline To-Do List</h2>
-        <div class="input-section">
-            <input type="text" id="todo-input" placeholder="Add a new task...">
-            <button id="add-btn">Add</button>
-        </div>
-        <ul id="todo-list"></ul>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <h2>Planner Pro</h2>
+            <nav>
+                <button onclick="switchTab('tasks')">📋 Tasks</button>
+                <button onclick="switchTab('calendar')">📅 Calendar</button>
+                <button onclick="switchTab('pomodoro')">⏱️ Pomodoro</button>
+                <button onclick="switchTab('notes')">📝 Notes</button>
+            </nav>
+            <div id="sync-status" class="sync-status">Offline Mode</div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- TASKS TAB -->
+            <section id="tab-tasks" class="tab-content active">
+                <h3>Task Manager</h3>
+                <div class="planner-form">
+                    <input type="text" id="task-text" placeholder="What needs to be done?">
+                    <select id="task-recurrence">
+                        <option value="none">One-time</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                    </select>
+                    <input type="datetime-local" id="task-reminder">
+                    <button onclick="addNewTask()">Add Task</button>
+                </div>
+                <ul id="task-list" class="display-list"></ul>
+            </section>
+
+            <!-- CALENDAR TAB -->
+            <section id="tab-calendar" class="tab-content">
+                <h3>Calendar Grid</h3>
+                <div class="calendar-controls">
+                    <button onclick="changeMonth(-1)">◀</button>
+                    <span id="calendar-month-year"></span>
+                    <button onclick="changeMonth(1)">▶</button>
+                </div>
+                <div class="calendar-grid" id="calendar-grid"></div>
+            </section>
+
+            <!-- POMODORO TAB -->
+            <section id="tab-pomodoro" class="tab-content">
+                <h3>Pomodoro Timer</h3>
+                <div class="timer-box">
+                    <div id="timer-display">25:00</div>
+                    <div class="timer-controls">
+                        <button id="timer-start" onclick="toggleTimer()">Start</button>
+                        <button onclick="resetTimer()">Reset</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NOTES TAB -->
+            <section id="tab-notes" class="tab-content">
+                <h3>Scratchpad Notes</h3>
+                <div class="planner-form">
+                    <input type="text" id="note-title" placeholder="Note Title...">
+                    <textarea id="note-body" placeholder="Write something deep..."></textarea>
+                    <button onclick="addNewNote()">Save Note</button>
+                </div>
+                <div id="notes-container" class="notes-grid"></div>
+            </section>
+        </main>
     </div>
 
     <script src="app.js"></script>
-    <script>
-        // Register the Service Worker for offline capabilities
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Service Worker Registered!'))
-                    .catch(err => console.log('Service Worker registration failed: ', err));
-            });
-        }
-    </script>
 </body>
 </html>
